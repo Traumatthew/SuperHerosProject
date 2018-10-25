@@ -86,21 +86,26 @@ namespace SuperHerosProject.Controllers
         //===================================================================================================
 
         //GET: Superhero/Edit
+        [HttpGet]
         public ActionResult Edit(int id)
         {
-           /* var editSuperhero = db.Superheros.Where(s => s.ID == id).Single()*/;
-            return View();
+           var editSuperhero = db.Superheros.Where(s => s.ID == id).Single();
+            return View(editSuperhero);
         }
 
         //===================================================================================================
 
         [HttpPost]
-        public ActionResult Edit(Superheros superohero, int id)
+        public ActionResult Edit([Bind(Include = "SuperheroName,Alterego,PrimaryAbility,SecondaryAbility,Catchphrase")] Superheros superhero, int id)
         {
-            var editSuperhero = db.Superheros.Where(s => s.ID == superohero.ID).First();
-            
-            db.Superheros.Remove(editSuperhero);
-            db.Superheros.Add(editSuperhero);
+            var editSuperhero = db.Superheros.Where(s => superhero.ID == superhero.ID).First();
+            editSuperhero.SuperheroName = superhero.SuperheroName;
+            editSuperhero.PrimaryAbility = superhero.PrimaryAbility;
+            editSuperhero.SecondaryAbility = superhero.SecondaryAbility;
+            editSuperhero.AlterEgo = superhero.AlterEgo;
+            editSuperhero.Catchphrase = superhero.Catchphrase;
+            //db.Superheros.Remove(editSuperhero);
+            //db.Superheros.Add(editSuperhero);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
