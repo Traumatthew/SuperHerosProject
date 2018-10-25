@@ -45,16 +45,6 @@ namespace SuperHerosProject.Controllers
 
         //============================================================================================
 
-        //GET: Superhero/Delete
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        //===================================================================================================
-
-        //POST: Superhero/Delete
-        //[HttpPost]
         public ActionResult Delete(int id)
         {
 
@@ -89,23 +79,21 @@ namespace SuperHerosProject.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-           var editSuperhero = db.Superheros.Where(s => s.ID == id).Single();
+           var editSuperhero = db.Superheros.Where(s => s.ID == id).First();
             return View(editSuperhero);
         }
 
         //===================================================================================================
 
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "SuperheroName,Alterego,PrimaryAbility,SecondaryAbility,Catchphrase")] Superheros superhero, int id)
+        public ActionResult Edit([Bind(Include = "ID, SuperheroName,Alterego,PrimaryAbility,SecondaryAbility,Catchphrase")] Superheros superhero)
         {
-            var editSuperhero = db.Superheros.Where(s => superhero.ID == superhero.ID).First();
+            var editSuperhero = db.Superheros.Where(s => superhero.ID == superhero.ID).FirstOrDefault();
             editSuperhero.SuperheroName = superhero.SuperheroName;
             editSuperhero.PrimaryAbility = superhero.PrimaryAbility;
             editSuperhero.SecondaryAbility = superhero.SecondaryAbility;
             editSuperhero.AlterEgo = superhero.AlterEgo;
             editSuperhero.Catchphrase = superhero.Catchphrase;
-            //db.Superheros.Remove(editSuperhero);
-            //db.Superheros.Add(editSuperhero);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
